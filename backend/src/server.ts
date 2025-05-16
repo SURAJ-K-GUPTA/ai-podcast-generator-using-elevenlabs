@@ -33,7 +33,14 @@ const limiter = rateLimit({
   message: 'Too many requests from this IP, please try again after 15 minutes',
 });
 
-app.use(cors());
+// CORS middleware
+// Allow only the frontend domain // CLIENT_URL
+const allowedOrigins = [process.env.CLIENT_URL || ''];
+
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true,
+}));
 app.use(express.json());
 app.use(limiter);
 
