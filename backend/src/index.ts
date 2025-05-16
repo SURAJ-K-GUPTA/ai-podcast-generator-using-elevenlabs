@@ -44,8 +44,102 @@ app.use(cors({
 app.use(express.json());
 app.use(limiter);
 
-app.get('/', (req , res): void => {
-  res.send('Hello World');
+app.get('/', (req, res): void => {
+  const html = `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>AI Podcast Generator API</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                background: linear-gradient(135deg, #4F46E5, #818CF8);
+                height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: white;
+            }
+            
+            .container {
+                text-align: center;
+                padding: 2rem;
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(10px);
+                border-radius: 1rem;
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+                max-width: 600px;
+                width: 90%;
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+                margin-bottom: 1rem;
+                background: linear-gradient(to right, #ffffff, #e2e8f0);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+            
+            p {
+                font-size: 1.1rem;
+                margin-bottom: 1.5rem;
+                line-height: 1.6;
+                color: rgba(255, 255, 255, 0.9);
+            }
+            
+            .loader {
+                width: 50px;
+                height: 50px;
+                border: 5px solid #ffffff;
+                border-bottom-color: transparent;
+                border-radius: 50%;
+                display: inline-block;
+                animation: rotation 1s linear infinite;
+                margin-top: 1rem;
+            }
+            
+            @keyframes rotation {
+                0% {
+                    transform: rotate(0deg);
+                }
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+            
+            .redirect-text {
+                margin-top: 1rem;
+                font-size: 0.9rem;
+                color: rgba(255, 255, 255, 0.7);
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>AI Podcast Generator</h1>
+            <p>Welcome to the AI Podcast Generator API. This service powers the generation of AI-driven podcasts using advanced language models and voice synthesis.</p>
+            <p>Redirecting you to the application...</p>
+            <div class="loader"></div>
+            <p class="redirect-text">If you're not redirected automatically, <a href="${process.env.CLIENT_URL || 'http://localhost:5173'}" style="color: #ffffff; text-decoration: underline;">click here</a></p>
+        </div>
+        <script>
+            setTimeout(() => {
+                window.location.href = "${process.env.CLIENT_URL || 'http://localhost:5173'}";
+            }, 3000);
+        </script>
+    </body>
+    </html>
+  `;
+  
+  res.send(html);
 });
 
 // Helper function to convert response to Buffer
