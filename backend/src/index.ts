@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
 import cors from 'cors';
 import rateLimit from 'express-rate-limit';
 import dotenv from 'dotenv';
@@ -44,7 +44,7 @@ app.use(cors({
 app.use(express.json());
 app.use(limiter);
 
-app.get('/', (req: Request, res: Response): void => {
+app.get('/', (req , res): void => {
   res.send('Hello World');
 });
 
@@ -72,7 +72,7 @@ function countWords(text: string): number {
 }
 
 // Generate script endpoint
-app.post('/api/generate-script', async (req: Request, res: Response): Promise<void> => {
+  app.post('/api/generate-script', async (req , res): Promise<void> => {
   try {
     const { prompt } = req.body;
 
@@ -120,7 +120,7 @@ app.post('/api/generate-script', async (req: Request, res: Response): Promise<vo
 });
 
 // Generate audio endpoint
-app.post('/api/generate-audio', async (req: Request, res: Response): Promise<void> => {
+app.post('/api/generate-audio', async (req , res): Promise<void> => {
   try {
     const { script, voiceId } = req.body;
 
@@ -156,7 +156,7 @@ app.post('/api/generate-audio', async (req: Request, res: Response): Promise<voi
 
 // Preview voice endpoint
 // Preview voice endpoint
-app.get('/api/preview-voice/:voiceId', async (req: Request, res: Response): Promise<void> => {
+app.get('/api/preview-voice/:voiceId', async (req , res): Promise<void> => {
   try {
     const { voiceId } = req.params;
     const previewText = 'Hi, this is a sample of my voice.';
